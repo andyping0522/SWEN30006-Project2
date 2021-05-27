@@ -23,7 +23,7 @@ public class Flush extends IScoringRuleStrategy{
             }
         }
         if (list.size() == 5){
-            if ((Cribbage.Suit) list.get(5).getSuit() == suit){
+            if ((Cribbage.Suit) list.get(4).getSuit() == suit){
                 return FLUSH5;
             }else {
                 return FLUSH4;

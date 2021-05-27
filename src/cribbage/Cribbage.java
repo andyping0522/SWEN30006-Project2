@@ -130,6 +130,7 @@ public class Cribbage extends CardGame {
 	private final Hand[] hands = new Hand[nPlayers];
 	private Hand starter;
 	private Hand crib;
+	private Card dealt; // starter card
 
 	public static void setStatus(String string) { cribbage.setStatusText(string); }
 
@@ -149,7 +150,7 @@ public class Cribbage extends CardGame {
 
 	private void updateScore(int player) {
 		removeActor(scoreActors[player]);
-		scoreActors[player] = new TextActor(String.valueOf(scores[player]), Color.WHITE, bgColor, bigFont);
+		scoreActors[player] = new TextActor(String.valueOf(players[player].getScore()), Color.WHITE, bgColor, bigFont);
 		addActor(scoreActors[player], scoreLocations[player]);
 	}
 
@@ -204,8 +205,10 @@ public class Cribbage extends CardGame {
 			// if starter is a Jack, the dealer gets 2 points
 			players[DEALER].Score(2);
 		}
+		updateScore(DEALER);
 		dealt.setVerso(false);
 		transfer(dealt, starter);
+		this.dealt = dealt;
 	}
 
 	int total(Hand hand) {
@@ -260,8 +263,10 @@ public class Cribbage extends CardGame {
 				ArrayList<Card> set = copy.segment.getCardList();
 				CompositeRulePlay rule = factory.getCompositeRulePlay(set, unsortedSet);
 				players[currentPlayer].Score(rule.getScore());
+				updateScore(currentPlayer);
 				if (total(s.segment) == thirtyone) {
 					players[currentPlayer].Score(2);// lastPlayer gets 2 points for a 31
+					updateScore(currentPlayer);
 					s.newSegment = true;
 					currentPlayer = (currentPlayer+1) % 2;
 				} else {
@@ -279,8 +284,17 @@ public class Cribbage extends CardGame {
 
 	void showHandsCrib() {
 		// score player 0 (non dealer)
+		CompositeRuleShow rule = factory.getCompositeRuleShow(players[0].hand.getCardList(), dealt);
+		players[0].Score(rule.getScore());
+		updateScore(0);
 		// score player 1 (dealer)
+		rule = factory.getCompositeRuleShow(players[1].hand.getCardList(), dealt);
+		players[1].Score(rule.getScore());
+		updateScore(1);
 		// score crib (for dealer)
+		rule = factory.getCompositeRuleShow(crib.getCardList(), dealt);
+		players[1].Score(rule.getScore());
+		updateScore(1);
 	}
 
 	public Cribbage()

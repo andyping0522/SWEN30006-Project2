@@ -34,4 +34,8 @@ public abstract class IPlayer {
     public void Score(int score){
         this.score += score;
     }
+
+    public int getScore() {
+        return score;
+    }
 }
