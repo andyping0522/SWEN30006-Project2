@@ -17,6 +17,7 @@ public class Flush extends IScoringRuleStrategy{
         ArrayList<Card> list = getSet();
         Cribbage.Suit suit = (Cribbage.Suit) list.get(0).getSuit();
         for (int i=1; i<4; i++){
+            //System.out.println(i);
             Cribbage.Suit currSuit = (Cribbage.Suit) list.get(i).getSuit();
             if (currSuit != suit){
                 return 0;

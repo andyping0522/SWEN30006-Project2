@@ -131,6 +131,8 @@ public class Cribbage extends CardGame {
 	private Hand starter;
 	private Hand crib;
 	private Card dealt; // starter card
+	private ArrayList<Card> dealerSet;
+	private ArrayList<Card> nonDealerSet;
 
 	public static void setStatus(String string) { cribbage.setStatusText(string); }
 
@@ -248,6 +250,8 @@ public class Cribbage extends CardGame {
 					// Another "go" after previous one with no intervening cards
 					// lastPlayer gets 1 point for a "go"
 					s.newSegment = true;
+					players[(currentPlayer+1) % 2].Score(1);
+					updateScore((currentPlayer+1) % 2);
 				} else {
 					// currentPlayer says "go"
 					s.go = true;
@@ -284,11 +288,11 @@ public class Cribbage extends CardGame {
 
 	void showHandsCrib() {
 		// score player 0 (non dealer)
-		CompositeRuleShow rule = factory.getCompositeRuleShow(players[0].hand.getCardList(), dealt);
+		CompositeRuleShow rule = factory.getCompositeRuleShow(nonDealerSet, dealt);
 		players[0].Score(rule.getScore());
 		updateScore(0);
 		// score player 1 (dealer)
-		rule = factory.getCompositeRuleShow(players[1].hand.getCardList(), dealt);
+		rule = factory.getCompositeRuleShow(dealerSet, dealt);
 		players[1].Score(rule.getScore());
 		updateScore(1);
 		// score crib (for dealer)
@@ -314,9 +318,10 @@ public class Cribbage extends CardGame {
 		addActor(new TextActor("Seed: " + SEED, Color.BLACK, bgColor, normalFont), seedLocation);
 
 		/* Play the round */
-
 		deal(pack, hands);
 		discardToCrib();
+		dealerSet = (ArrayList<Card>) players[1].hand.getCardList().clone();
+		nonDealerSet = (ArrayList<Card>) players[0].hand.getCardList().clone();
 		starter(pack);
 		play();
 		showHandsCrib();
@@ -366,6 +371,7 @@ public class Cribbage extends CardGame {
 		clazz = Class.forName(cribbageProperties.getProperty("Player1"));
 		players[1] = (IPlayer) clazz.getConstructor().newInstance();
 		// End properties
+
 
 		new Cribbage();
 	}
