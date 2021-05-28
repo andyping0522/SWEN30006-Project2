@@ -6,8 +6,8 @@ import java.util.ArrayList;
 
 public class RunForPlay extends Run{
     private ArrayList<Card> unsortedSet;
-    public RunForPlay(ArrayList<Card> set, ArrayList<Card> unsortedSet) {
-        super(set);
+    public RunForPlay(ArrayList<Card> set, ArrayList<Card> unsortedSet, IPlayer player) {
+        super(set, player);
         this.unsortedSet = unsortedSet;
     }
 
@@ -24,6 +24,8 @@ public class RunForPlay extends Run{
             }
             subset.sort(new CardComparator());
             if (isRun(subset)){
+                getPlayer().Score(subset.size());
+                getLogger().WriteToFile(header() +subset.size()+",run,"+ canonical(subset)+ "\n");
                 return subset.size();
             }
             start ++;

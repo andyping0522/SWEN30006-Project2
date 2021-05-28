@@ -5,8 +5,8 @@ import ch.aplu.jcardgame.Card;
 import java.util.ArrayList;
 
 public class FifteenForPlay extends IScoringRuleStrategy{
-    public FifteenForPlay(ArrayList<Card> set) {
-        super(set);
+    public FifteenForPlay(ArrayList<Card> set, IPlayer player) {
+        super(set, player);
 
     }
 
@@ -21,6 +21,8 @@ public class FifteenForPlay extends IScoringRuleStrategy{
             }
         }
         if (sum == 15){
+            getPlayer().Score(2);
+            getLogger().WriteToFile(header()+"2,fifteen,"+ canonical(getSet()) + "\n");
             return 2;
         }else{
             return 0;

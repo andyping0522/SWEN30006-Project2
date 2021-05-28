@@ -7,8 +7,8 @@ import java.util.ArrayList;
 public class Flush extends IScoringRuleStrategy{
     private static final int FLUSH5 = 5;
     private static final int FLUSH4 = 4;
-    public Flush(ArrayList<Card> set) {
-        super(set);
+    public Flush(ArrayList<Card> set, IPlayer player) {
+        super(set,player);
     }
 
     @Override
@@ -23,15 +23,18 @@ public class Flush extends IScoringRuleStrategy{
                 return 0;
             }
         }
-        if (list.size() == 5){
-            if ((Cribbage.Suit) list.get(4).getSuit() == suit){
-                return FLUSH5;
-            }else {
-                return FLUSH4;
-            }
-        }else{
-            return FLUSH4;
-        }
 
+        // check fifth element(the starter card)
+        if (list.get(4).getSuit() == suit){
+            getPlayer().Score(FLUSH5);
+            getLogger().WriteToFile(header() + FLUSH5+ ",flush," +canonical(list)+ "\n");
+            return FLUSH5;
+
+        } else {
+            getPlayer().Score(FLUSH4);
+            getLogger().WriteToFile(header() + FLUSH4+ ",flush," +canonical(list)+ "\n");
+            return FLUSH4;
+
+        }
     }
 }

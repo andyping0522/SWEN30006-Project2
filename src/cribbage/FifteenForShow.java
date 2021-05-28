@@ -7,8 +7,8 @@ import java.util.ArrayList;
 public class FifteenForShow extends IScoringRuleStrategy {
     private static final int FIFTEEN = 15;
 
-    public FifteenForShow(ArrayList<Card> set) {
-        super(set);
+    public FifteenForShow(ArrayList<Card> set, IPlayer player) {
+        super(set, player);
     }
 
     @Override
@@ -16,6 +16,8 @@ public class FifteenForShow extends IScoringRuleStrategy {
         int result = 0;
         for (ArrayList<Card> subset:getSubsets()){
             if (isFifteen(subset)){
+                getPlayer().Score(2);
+                getLogger().WriteToFile(header() + "2,fifteen," + canonical(subset)+ "\n");
                 result += 2;
             }
         }

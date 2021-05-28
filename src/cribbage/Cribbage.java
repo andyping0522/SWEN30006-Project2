@@ -52,13 +52,12 @@ public class Cribbage extends CardGame {
 
 	String canonical(ArrayList<Card> cards){
 		String result = "[";
-		for (int i=0; i<cards.size(); i++){
+		for (int i=0; i<cards.size(); i++) {
 			result += (canonical(cards.get(i)));
-			if (i != cards.size() - 1){
+			if (i != cards.size() - 1) {
 				result += ",";
 			}
 		}
-		result += "]\n";
 		return result;
 	}
 
@@ -191,8 +190,8 @@ public class Cribbage extends CardGame {
 		for (int i = 0; i < nPlayers; i++) {
 			hands[i].sort(Hand.SortType.POINTPRIORITY, true);
 		}
-		logger.WriteToFile("deal,P0,"+canonical(hands[0])+"\n");
-		logger.WriteToFile(("deal,P1"+canonical(hands[1]) + "\n"));
+		logger.WriteToFile("deal,P0,"+canonical(hands[0]));
+		logger.WriteToFile(("deal,P1"+canonical(hands[1])));
 		layouts[0].setStepDelay(0);
 	}
 
@@ -214,7 +213,7 @@ public class Cribbage extends CardGame {
 					logger.WriteToFile(",");
 				}
 			}
-			logger.WriteToFile("]\n");
+			logger.WriteToFile("]");
 			crib.sort(Hand.SortType.POINTPRIORITY, true);
 		}
 	}
@@ -234,7 +233,7 @@ public class Cribbage extends CardGame {
 		dealt.setVerso(false);
 		transfer(dealt, starter);
 		this.dealt = dealt;
-		logger.WriteToFile("starter,"+canonical(dealt)+ "\n");
+		logger.WriteToFile("starter,"+canonical(dealt));
 
 	}
 
@@ -285,17 +284,19 @@ public class Cribbage extends CardGame {
 			} else {
 				s.lastPlayer = currentPlayer; // last Player to play a card in this segment
 				transfer(nextCard, s.segment);
-				logger.WriteToFile("play,P"+currentPlayer+","+total(s.segment)+"," +canonical(nextCard) + "\n");
+				logger.WriteToFile("play,P"+currentPlayer+","+total(s.segment)+"," +canonical(nextCard));
 				// create rules to calculate scores
 				ArrayList<Card> unsortedSet = s.segment.getCardList();
 				ArrayList<Card> set = (ArrayList<Card>) unsortedSet.clone();
 				set.sort(new CardComparator());
 
-				CompositeRulePlay rule = factory.getCompositeRulePlay(set, unsortedSet);
-				players[currentPlayer].Score(rule.getScore());
+				CompositeRulePlay rule = factory.getCompositeRulePlay(set, unsortedSet, players[currentPlayer]);
+				rule.getScore();
 				updateScore(currentPlayer);
 				if (total(s.segment) == thirtyone) {
 					players[currentPlayer].Score(2);// lastPlayer gets 2 points for a 31
+					logger.WriteToFile("score,P"+currentPlayer+","+players[currentPlayer].score+","+
+							"2,thirtyone");
 					updateScore(currentPlayer);
 					s.newSegment = true;
 					currentPlayer = (currentPlayer+1) % 2;
@@ -315,18 +316,18 @@ public class Cribbage extends CardGame {
 	void showHandsCrib() {
 		// score player 0 (non dealer)
 		logger.WriteToFile("show,P0"+ canonical(dealt)+ "+" + canonical(nonDealerSet));
-		CompositeRuleShow rule = factory.getCompositeRuleShow(nonDealerSet, dealt);
-		players[0].Score(rule.getScore());
+		CompositeRuleShow rule = factory.getCompositeRuleShow(nonDealerSet, dealt, players[0]);
+		rule.getScore();
 		updateScore(0);
 		// score player 1 (dealer)
 		logger.WriteToFile("show,P1"+ canonical(dealt)+ "+" + canonical(dealerSet));
-		rule = factory.getCompositeRuleShow(dealerSet, dealt);
-		players[1].Score(rule.getScore());
+		rule = factory.getCompositeRuleShow(dealerSet, dealt, players[DEALER]);
+		rule.getScore();
 		updateScore(1);
 		// score crib (for dealer)
 		logger.WriteToFile("show,P1"+ canonical(dealt)+ "+" + canonical(crib));
-		rule = factory.getCompositeRuleShow(crib.getCardList(), dealt);
-		players[1].Score(rule.getScore());
+		rule = factory.getCompositeRuleShow(crib.getCardList(), dealt, players[DEALER]);
+		rule.getScore();
 		updateScore(1);
 	}
 
@@ -403,9 +404,9 @@ public class Cribbage extends CardGame {
 		players[1] = (IPlayer) clazz.getConstructor().newInstance();
 		// End properties
 		MyLogger logger = new MyLogger();
-		logger.WriteToFile("seed, "+SEED+"\n");
-		logger.WriteToFile(cribbageProperties.getProperty("Player0") + ",P0\n");
-		logger.WriteToFile((cribbageProperties.getProperty("Player1") + ",P1\n"));
+		logger.WriteToFile("seed, "+SEED);
+		logger.WriteToFile(cribbageProperties.getProperty("Player0") + ",P0");
+		logger.WriteToFile((cribbageProperties.getProperty("Player1") + ",P1"));
 
 
 		new Cribbage();
