@@ -15,11 +15,11 @@ public class CompositeRuleFactory {
         return instance;
     }
 
-    public CompositeRulePlay getCompositeRulePlay(ArrayList<Card> set, ArrayList<Card> unsortedSet){
-        return new CompositeRulePlay(set, unsortedSet);
+    public CompositeRulePlay getCompositeRulePlay(ArrayList<Card> set, ArrayList<Card> unsortedSet, IPlayer player){
+        return new CompositeRulePlay(set, unsortedSet, player);
     }
 
-    public CompositeRuleShow getCompositeRuleShow(ArrayList<Card> set, Card starter){
-        return new CompositeRuleShow(set,starter);
+    public CompositeRuleShow getCompositeRuleShow(ArrayList<Card> set, Card starter, IPlayer player){
+        return new CompositeRuleShow(set,starter, player);
     }
 }

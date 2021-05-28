@@ -7,19 +7,30 @@ import java.util.ArrayList;
 public class Jack extends IScoringRuleStrategy{
     private Card starter;
 
-    public Jack(ArrayList<Card> set, Card starter) {
-        super(set);
+    public Jack(ArrayList<Card> set, Card starter, IPlayer player) {
+        super(set, player);
         this.starter = starter;
     }
 
     @Override
     public int getScore() {
         ArrayList<Card> cards = getSet();
-        Card lastPlayed = cards.get(cards.size() - 1);
-        if ((Cribbage.Rank)lastPlayed.getRank() == Cribbage.Rank.JACK &&
-                (Cribbage.Suit)lastPlayed.getSuit() == (Cribbage.Suit)starter.getSuit()){
-            return 1;
+        int i = cards.size() - 1, result = 0;
+        cards.remove(i);
+        ArrayList<Card> candidates = new ArrayList<>();
+        for (Card card:cards){
+            if (card.getRank() == Cribbage.Rank.JACK &&
+                card.getSuit() == starter.getSuit()){
+                result ++;
+                candidates.add(card);
+
+            }
         }
+        if (result > 0){
+            getPlayer().Score(result);
+            getLogger().WriteToFile(header()+ result +",jack, "+ canonical(candidates));
+        }
+
         return 0;
     }
 }

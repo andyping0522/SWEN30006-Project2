@@ -5,8 +5,8 @@ import ch.aplu.jcardgame.Card;
 import java.util.ArrayList;
 
 public abstract class Run extends IScoringRuleStrategy{
-    public Run(ArrayList<Card> set) {
-        super(set);
+    public Run(ArrayList<Card> set, IPlayer player) {
+        super(set, player);
     }
 
     /**

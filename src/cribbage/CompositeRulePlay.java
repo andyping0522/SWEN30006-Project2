@@ -7,8 +7,8 @@ import java.util.ArrayList;
 public class CompositeRulePlay extends CompositeRule{
     private ArrayList<Card> unsortedSet;
     private ArrayList<IScoringRuleStrategy> strategies;
-    public CompositeRulePlay(ArrayList<Card> set, ArrayList<Card> unsortedSet) {
-        super(set);
+    public CompositeRulePlay(ArrayList<Card> set, ArrayList<Card> unsortedSet, IPlayer player) {
+        super(set, player);
         this.unsortedSet = unsortedSet;
         this.strategies = getStrategies();
     }
@@ -26,9 +26,9 @@ public class CompositeRulePlay extends CompositeRule{
     protected ArrayList<IScoringRuleStrategy> getStrategies(){
         ArrayList<IScoringRuleStrategy> result = new ArrayList<>();
 
-        RunForPlay run = new RunForPlay(getSet(), unsortedSet);
-        PairForPlay pair = new PairForPlay(getSet(), unsortedSet);
-        FifteenForPlay fifteenForPlay = new FifteenForPlay(getSet());
+        RunForPlay run = new RunForPlay(getSet(), unsortedSet, getPlayer());
+        PairForPlay pair = new PairForPlay(getSet(), unsortedSet, getPlayer());
+        FifteenForPlay fifteenForPlay = new FifteenForPlay(getSet(), getPlayer());
         result.add(fifteenForPlay);
         result.add(run);
         result.add(pair);

@@ -291,8 +291,8 @@ public class Cribbage extends CardGame {
 				ArrayList<Card> set = (ArrayList<Card>) unsortedSet.clone();
 				set.sort(new CardComparator());
 
-				CompositeRulePlay rule = factory.getCompositeRulePlay(set, unsortedSet);
-				players[currentPlayer].Score(rule.getScore());
+				CompositeRulePlay rule = factory.getCompositeRulePlay(set, unsortedSet, players[currentPlayer]);
+				rule.getScore();
 				updateScore(currentPlayer);
 				if (total(s.segment) == thirtyone) {
 					players[currentPlayer].Score(2);// lastPlayer gets 2 points for a 31
@@ -315,18 +315,18 @@ public class Cribbage extends CardGame {
 	void showHandsCrib() {
 		// score player 0 (non dealer)
 		logger.WriteToFile("show,P0"+ canonical(dealt)+ "+" + canonical(nonDealerSet));
-		CompositeRuleShow rule = factory.getCompositeRuleShow(nonDealerSet, dealt);
-		players[0].Score(rule.getScore());
+		CompositeRuleShow rule = factory.getCompositeRuleShow(nonDealerSet, dealt, players[0]);
+		rule.getScore();
 		updateScore(0);
 		// score player 1 (dealer)
 		logger.WriteToFile("show,P1"+ canonical(dealt)+ "+" + canonical(dealerSet));
-		rule = factory.getCompositeRuleShow(dealerSet, dealt);
-		players[1].Score(rule.getScore());
+		rule = factory.getCompositeRuleShow(dealerSet, dealt, players[DEALER]);
+		rule.getScore();
 		updateScore(1);
 		// score crib (for dealer)
 		logger.WriteToFile("show,P1"+ canonical(dealt)+ "+" + canonical(crib));
-		rule = factory.getCompositeRuleShow(crib.getCardList(), dealt);
-		players[1].Score(rule.getScore());
+		rule = factory.getCompositeRuleShow(crib.getCardList(), dealt, players[DEALER]);
+		rule.getScore();
 		updateScore(1);
 	}
 
