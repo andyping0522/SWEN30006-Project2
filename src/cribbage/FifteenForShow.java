@@ -30,7 +30,7 @@ public class FifteenForShow extends IScoringRuleStrategy {
     private boolean isFifteen(ArrayList<Card> subset){
         int sum = 0;
         for (Card card:subset){
-            sum += card.getValue();
+            sum += Cribbage.cardValue(card);
             if (sum == FIFTEEN){
                 return true;
             }else if(sum > FIFTEEN){

@@ -14,22 +14,22 @@ public class PairForShow extends IScoringRuleStrategy{
     @Override
     public int getScore() {
         int result = 0;
-        HashMap<Integer, ArrayList<Card>> dict = generateMap();
-        for (Integer key:dict.keySet()){
+        HashMap<Cribbage.Rank, ArrayList<Card>> dict = generateMap();
+        for (Cribbage.Rank key:dict.keySet()){
             if (dict.get(key).size() > 1){
-                result += dict.get(key).size();
+                result += dict.get(key).size()*2;
             }
         }
-        return result * 2;
+        return result;
 
     }
 
-    private HashMap<Integer, ArrayList<Card>> generateMap(){
-        HashMap<Integer, ArrayList<Card>> dict = new HashMap<Integer, ArrayList<Card>>();
+    private HashMap<Cribbage.Rank, ArrayList<Card>> generateMap(){
+        HashMap<Cribbage.Rank, ArrayList<Card>> dict = new HashMap<Cribbage.Rank, ArrayList<Card>>();
         for (Card card:getSet()){
-            int val = card.getValue();
+            Cribbage.Rank val = (Cribbage.Rank) card.getRank();
             if (dict.get(val) == null){
-                dict.put(val, new ArrayList<Card>());
+                dict.put(val, new ArrayList<>());
             }
             dict.get(val).add(card);
         }

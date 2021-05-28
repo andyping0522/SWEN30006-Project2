@@ -25,7 +25,7 @@ public class CompositeRulePlay extends CompositeRule{
     @Override
     protected ArrayList<IScoringRuleStrategy> getStrategies(){
         ArrayList<IScoringRuleStrategy> result = new ArrayList<IScoringRuleStrategy>();
-        Run run = new Run(getSet());
+        RunForPlay run = new RunForPlay(getSet(), unsortedSet);
         PairForPlay pair = new PairForPlay(getSet(), unsortedSet);
         FifteenForPlay fifteenForPlay = new FifteenForPlay(getSet());
         result.add(run);

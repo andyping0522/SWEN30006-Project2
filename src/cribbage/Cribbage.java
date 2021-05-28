@@ -211,6 +211,7 @@ public class Cribbage extends CardGame {
 		dealt.setVerso(false);
 		transfer(dealt, starter);
 		this.dealt = dealt;
+
 	}
 
 	int total(Hand hand) {
@@ -250,8 +251,8 @@ public class Cribbage extends CardGame {
 					// Another "go" after previous one with no intervening cards
 					// lastPlayer gets 1 point for a "go"
 					s.newSegment = true;
-					players[(currentPlayer+1) % 2].Score(1);
-					updateScore((currentPlayer+1) % 2);
+					players[currentPlayer].Score(1);
+					updateScore(currentPlayer);
 				} else {
 					// currentPlayer says "go"
 					s.go = true;
@@ -262,9 +263,9 @@ public class Cribbage extends CardGame {
 				transfer(nextCard, s.segment);
 				// create rules to calculate scores
 				ArrayList<Card> unsortedSet = s.segment.getCardList();
-				Segment copy = s;
-				copy.segment.sort(Hand.SortType.POINTPRIORITY, false);
-				ArrayList<Card> set = copy.segment.getCardList();
+				ArrayList<Card> set = (ArrayList<Card>) unsortedSet.clone();
+				set.sort(new CardComparator());
+
 				CompositeRulePlay rule = factory.getCompositeRulePlay(set, unsortedSet);
 				players[currentPlayer].Score(rule.getScore());
 				updateScore(currentPlayer);

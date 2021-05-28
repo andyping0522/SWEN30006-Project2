@@ -27,7 +27,7 @@ public class CompositeRuleShow extends CompositeRule{
         ArrayList<IScoringRuleStrategy> result = new ArrayList<IScoringRuleStrategy>();
         ArrayList<Card> list = getSet();
         list.add(starter);
-        Run run = new Run(list);
+        RunForShow run = new RunForShow(list);
         FifteenForShow fifteen = new FifteenForShow(list);
         Flush flush = new Flush(list);
         Jack jack = new Jack(getSet(), starter);

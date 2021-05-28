@@ -7,13 +7,15 @@ import java.util.ArrayList;
 public class FifteenForPlay extends IScoringRuleStrategy{
     public FifteenForPlay(ArrayList<Card> set) {
         super(set);
+
     }
 
     @Override
     public int getScore() {
         int sum = 0;
         for (Card card:getSet()){
-            sum += card.getValue();
+            //System.out.println(card.getValue());
+            sum += Cribbage.cardValue(card);
             if (sum > 15){
                 return 0;
             }

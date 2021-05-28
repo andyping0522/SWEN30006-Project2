@@ -19,9 +19,9 @@ public class PairForPlay extends IScoringRuleStrategy{
         if (unsortedSet.size() < 2){
             return 0;
         }
-        int required = unsortedSet.get(unsortedSet.size() - 1).getValue();
+        Cribbage.Rank required = (Cribbage.Rank) unsortedSet.get(unsortedSet.size() - 1).getRank();
         for (int j = unsortedSet.size() - 2; j >= 0; j--){
-            if (unsortedSet.get(j).getValue() != required){
+            if (unsortedSet.get(j).getRank() != required){
                 break;
             }else{
                 result ++;
