@@ -27,12 +27,12 @@ public class Flush extends IScoringRuleStrategy{
         // check fifth element(the starter card)
         if (list.get(4).getSuit() == suit){
             getPlayer().Score(FLUSH5);
-            getLogger().WriteToFile(header() + FLUSH5+ ",flush," +canonical(list)+ "\n");
+            getLogger().WriteToFile(header() + FLUSH5+ ",flush," +canonical(list));
             return FLUSH5;
 
         } else {
             getPlayer().Score(FLUSH4);
-            getLogger().WriteToFile(header() + FLUSH4+ ",flush," +canonical(list)+ "\n");
+            getLogger().WriteToFile(header() + FLUSH4+ ",flush," +canonical(list));
             return FLUSH4;
 
         }

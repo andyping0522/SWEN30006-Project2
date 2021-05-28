@@ -58,6 +58,7 @@ public class Cribbage extends CardGame {
 				result += ",";
 			}
 		}
+		result += "]";
 		return result;
 	}
 
@@ -203,17 +204,15 @@ public class Cribbage extends CardGame {
 		// crib.setTargetArea(cribTarget);
 		crib.draw();
 		for (int j=0; j<nPlayers; j++) {
+			ArrayList<Card> cards = new ArrayList<>();
 
-			logger.WriteToFile("discard,P"+ j + ", [");
 			for (int i = 0; i < nDiscards; i++) {
 				Card card = players[j].discard();
 				transfer(card, crib);
-				logger.WriteToFile(canonical(card));
-				if (i == 0){
-					logger.WriteToFile(",");
-				}
+				cards.add(card);
+
 			}
-			logger.WriteToFile("]");
+			logger.WriteToFile("discard,P"+ j+","+canonical(cards));
 			crib.sort(Hand.SortType.POINTPRIORITY, true);
 		}
 	}
@@ -315,17 +314,17 @@ public class Cribbage extends CardGame {
 
 	void showHandsCrib() {
 		// score player 0 (non dealer)
-		logger.WriteToFile("show,P0"+ canonical(dealt)+ "+" + canonical(nonDealerSet));
+		logger.WriteToFile("show,P0,"+ canonical(dealt)+ "+" + canonical(nonDealerSet));
 		CompositeRuleShow rule = factory.getCompositeRuleShow(nonDealerSet, dealt, players[0]);
 		rule.getScore();
 		updateScore(0);
 		// score player 1 (dealer)
-		logger.WriteToFile("show,P1"+ canonical(dealt)+ "+" + canonical(dealerSet));
+		logger.WriteToFile("show,P1,"+ canonical(dealt)+ "+" + canonical(dealerSet));
 		rule = factory.getCompositeRuleShow(dealerSet, dealt, players[DEALER]);
 		rule.getScore();
 		updateScore(1);
 		// score crib (for dealer)
-		logger.WriteToFile("show,P1"+ canonical(dealt)+ "+" + canonical(crib));
+		logger.WriteToFile("show,P1,"+ canonical(dealt)+ "+" + canonical(crib));
 		rule = factory.getCompositeRuleShow(crib.getCardList(), dealt, players[DEALER]);
 		rule.getScore();
 		updateScore(1);

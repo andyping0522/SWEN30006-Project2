@@ -71,7 +71,7 @@ public abstract class IScoringRuleStrategy {
                 result += ",";
             }
         }
-        result += "]\n";
+        result += "]";
         return result;
     }
 

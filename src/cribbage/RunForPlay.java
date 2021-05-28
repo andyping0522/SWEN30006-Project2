@@ -25,7 +25,7 @@ public class RunForPlay extends Run{
             subset.sort(new CardComparator());
             if (isRun(subset)){
                 getPlayer().Score(subset.size());
-                getLogger().WriteToFile(header() +subset.size()+",run,"+ canonical(subset)+ "\n");
+                getLogger().WriteToFile(header() +subset.size()+",run,"+ canonical(subset));
                 return subset.size();
             }
             start ++;

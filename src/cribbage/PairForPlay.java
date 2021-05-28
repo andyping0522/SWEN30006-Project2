@@ -29,8 +29,8 @@ public class PairForPlay extends IScoringRuleStrategy{
             }
         }
         if (result > 0){
-            getPlayer().Score(result*2);
-            getLogger().WriteToFile(header() + result*2 + ",pair,"+ canonical(candidates)+ "\n");
+            getPlayer().Score(result*(result-1));
+            getLogger().WriteToFile(header() + result*(result-1) + ",pair,"+ canonical(candidates));
         }
         return result * 2;
     }

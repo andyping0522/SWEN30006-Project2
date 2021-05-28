@@ -22,7 +22,7 @@ public class FifteenForPlay extends IScoringRuleStrategy{
         }
         if (sum == 15){
             getPlayer().Score(2);
-            getLogger().WriteToFile(header()+"2,fifteen,"+ canonical(getSet()) + "\n");
+            getLogger().WriteToFile(header()+"2,fifteen,"+ canonical(getSet()));
             return 2;
         }else{
             return 0;
