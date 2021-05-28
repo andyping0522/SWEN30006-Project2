@@ -24,13 +24,15 @@ public class CompositeRulePlay extends CompositeRule{
 
     @Override
     protected ArrayList<IScoringRuleStrategy> getStrategies(){
-        ArrayList<IScoringRuleStrategy> result = new ArrayList<IScoringRuleStrategy>();
+        ArrayList<IScoringRuleStrategy> result = new ArrayList<>();
+
         RunForPlay run = new RunForPlay(getSet(), unsortedSet);
         PairForPlay pair = new PairForPlay(getSet(), unsortedSet);
         FifteenForPlay fifteenForPlay = new FifteenForPlay(getSet());
+        result.add(fifteenForPlay);
         result.add(run);
         result.add(pair);
-        result.add(fifteenForPlay);
+
         return result;
     }
 }

@@ -50,6 +50,18 @@ public class Cribbage extends CardGame {
 
 	String canonical(Card c) { return canonical((Rank) c.getRank()) + canonical((Suit) c.getSuit()); }
 
+	String canonical(ArrayList<Card> cards){
+		String result = "[";
+		for (int i=0; i<cards.size(); i++){
+			result += (canonical(cards.get(i)));
+			if (i != cards.size() - 1){
+				result += ",";
+			}
+		}
+		result += "]\n";
+		return result;
+	}
+
 	String canonical(Hand h) {
 		Hand h1 = new Hand(deck); // Clone to sort without changing the original hand
 		for (Card C: h.getCardList()) h1.insert(C.getSuit(), C.getRank(), false);
@@ -130,6 +142,7 @@ public class Cribbage extends CardGame {
 	private final Hand[] hands = new Hand[nPlayers];
 	private Hand starter;
 	private Hand crib;
+	private MyLogger logger;
 	private Card dealt; // starter card
 	private ArrayList<Card> dealerSet;
 	private ArrayList<Card> nonDealerSet;
@@ -178,6 +191,8 @@ public class Cribbage extends CardGame {
 		for (int i = 0; i < nPlayers; i++) {
 			hands[i].sort(Hand.SortType.POINTPRIORITY, true);
 		}
+		logger.WriteToFile("deal,P0,"+canonical(hands[0])+"\n");
+		logger.WriteToFile(("deal,P1"+canonical(hands[1]) + "\n"));
 		layouts[0].setStepDelay(0);
 	}
 
@@ -188,10 +203,18 @@ public class Cribbage extends CardGame {
 		crib.setView(this, layout);
 		// crib.setTargetArea(cribTarget);
 		crib.draw();
-		for (IPlayer player: players) {
+		for (int j=0; j<nPlayers; j++) {
+
+			logger.WriteToFile("discard,P"+ j + ", [");
 			for (int i = 0; i < nDiscards; i++) {
-				transfer(player.discard(), crib);
+				Card card = players[j].discard();
+				transfer(card, crib);
+				logger.WriteToFile(canonical(card));
+				if (i == 0){
+					logger.WriteToFile(",");
+				}
 			}
+			logger.WriteToFile("]\n");
 			crib.sort(Hand.SortType.POINTPRIORITY, true);
 		}
 	}
@@ -211,6 +234,7 @@ public class Cribbage extends CardGame {
 		dealt.setVerso(false);
 		transfer(dealt, starter);
 		this.dealt = dealt;
+		logger.WriteToFile("starter,"+canonical(dealt)+ "\n");
 
 	}
 
@@ -261,6 +285,7 @@ public class Cribbage extends CardGame {
 			} else {
 				s.lastPlayer = currentPlayer; // last Player to play a card in this segment
 				transfer(nextCard, s.segment);
+				logger.WriteToFile("play,P"+currentPlayer+","+total(s.segment)+"," +canonical(nextCard) + "\n");
 				// create rules to calculate scores
 				ArrayList<Card> unsortedSet = s.segment.getCardList();
 				ArrayList<Card> set = (ArrayList<Card>) unsortedSet.clone();
@@ -289,14 +314,17 @@ public class Cribbage extends CardGame {
 
 	void showHandsCrib() {
 		// score player 0 (non dealer)
+		logger.WriteToFile("show,P0"+ canonical(dealt)+ "+" + canonical(nonDealerSet));
 		CompositeRuleShow rule = factory.getCompositeRuleShow(nonDealerSet, dealt);
 		players[0].Score(rule.getScore());
 		updateScore(0);
 		// score player 1 (dealer)
+		logger.WriteToFile("show,P1"+ canonical(dealt)+ "+" + canonical(dealerSet));
 		rule = factory.getCompositeRuleShow(dealerSet, dealt);
 		players[1].Score(rule.getScore());
 		updateScore(1);
 		// score crib (for dealer)
+		logger.WriteToFile("show,P1"+ canonical(dealt)+ "+" + canonical(crib));
 		rule = factory.getCompositeRuleShow(crib.getCardList(), dealt);
 		players[1].Score(rule.getScore());
 		updateScore(1);
@@ -306,8 +334,10 @@ public class Cribbage extends CardGame {
 	{
 		super(850, 700, 30);
 		cribbage = this;
+		logger = new MyLogger();
 		setTitle("Cribbage (V" + version + ") Constructed for UofM SWEN30006 with JGameGrid (www.aplu.ch)");
 		setStatusText("Initializing...");
+
 		initScore();
 
 		Hand pack = deck.toHand(false);
@@ -372,6 +402,10 @@ public class Cribbage extends CardGame {
 		clazz = Class.forName(cribbageProperties.getProperty("Player1"));
 		players[1] = (IPlayer) clazz.getConstructor().newInstance();
 		// End properties
+		MyLogger logger = new MyLogger();
+		logger.WriteToFile("seed, "+SEED+"\n");
+		logger.WriteToFile(cribbageProperties.getProperty("Player0") + ",P0\n");
+		logger.WriteToFile((cribbageProperties.getProperty("Player1") + ",P1\n"));
 
 
 		new Cribbage();
