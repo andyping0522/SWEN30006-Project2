@@ -16,6 +16,7 @@ public class PairForShow extends IScoringRuleStrategy{
         int result = 0;
         HashMap<Cribbage.Rank, ArrayList<Card>> dict = generateMap();
         for (Cribbage.Rank key:dict.keySet()){
+            // if more than 1 occurrence of a rank, it is a pair
             if (dict.get(key).size() > 1){
                 getPlayer().Score(dict.get(key).size()*(dict.get(key).size() - 1));
                 getLogger().WriteToFile(header() + dict.get(key).size()*(dict.get(key).size() - 1)
@@ -28,6 +29,10 @@ public class PairForShow extends IScoringRuleStrategy{
 
     }
 
+    /**
+     * generate a hashmap to determine the number of occurrences of each rank
+     * @return a hashmap, the key is the rank, value is the list of cards with the rank
+     */
     private HashMap<Cribbage.Rank, ArrayList<Card>> generateMap(){
         HashMap<Cribbage.Rank, ArrayList<Card>> dict = new HashMap<Cribbage.Rank, ArrayList<Card>>();
         for (Card card:getSet()){

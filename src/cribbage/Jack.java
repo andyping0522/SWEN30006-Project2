@@ -16,7 +16,7 @@ public class Jack extends IScoringRuleStrategy{
     public int getScore() {
         ArrayList<Card> cards = getSet();
         int i = cards.size() - 1, result = 0;
-        cards.remove(i);
+        cards.remove(i); // remove the starter card
         ArrayList<Card> candidates = new ArrayList<>();
         for (Card card:cards){
             if (card.getRank() == Cribbage.Rank.JACK &&

@@ -15,6 +15,6 @@ public abstract class CompositeRule extends IScoringRuleStrategy{
 
 
 
-    public abstract int getScore();
-    protected abstract ArrayList<IScoringRuleStrategy> getStrategies();
+    public abstract int getScore(); // get total score from each strategy
+    protected abstract ArrayList<IScoringRuleStrategy> getStrategies(); // get a list of strategies
 }

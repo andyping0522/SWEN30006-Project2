@@ -14,6 +14,7 @@ public class RunForShow extends Run{
     public int getScore() {
         int result = 0;
         for (ArrayList<Card> subset:getSubsets()){
+            // for each subset, check if a run is formed
             if (isRun(subset)){
                 getPlayer().Score(subset.size());
                 getLogger().WriteToFile(header() + subset.size() + ",run," + canonical(subset));

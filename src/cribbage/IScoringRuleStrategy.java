@@ -46,7 +46,7 @@ public abstract class IScoringRuleStrategy {
      * @return the nested arraylist containing all subsets
      */
     protected ArrayList<ArrayList<Card>> subsets(ArrayList<Card> set){
-        ArrayList<ArrayList<Card>> result = new ArrayList<ArrayList<Card>>();
+        ArrayList<ArrayList<Card>> result = new ArrayList<>();
         helper(result, new ArrayList<Card>(), set, 0);
         return result;
     }

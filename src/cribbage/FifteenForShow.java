@@ -15,6 +15,7 @@ public class FifteenForShow extends IScoringRuleStrategy {
     public int getScore() {
         int result = 0;
         for (ArrayList<Card> subset:getSubsets()){
+            // for each subset, see if it sums up to 15
             if (isFifteen(subset)){
                 getPlayer().Score(2);
                 getLogger().WriteToFile(header() + "2,fifteen," + canonical(subset));

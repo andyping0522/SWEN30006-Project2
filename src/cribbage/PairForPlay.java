@@ -21,6 +21,7 @@ public class PairForPlay extends IScoringRuleStrategy{
         }
         Cribbage.Rank required = (Cribbage.Rank) unsortedSet.get(unsortedSet.size() - 1).getRank();
         for (int j = unsortedSet.size() - 2; j >= 0; j--){
+            // start from the last played card in the segment
             if (unsortedSet.get(j).getRank() != required){
                 break;
             }else{

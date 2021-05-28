@@ -5,6 +5,7 @@ import ch.aplu.jcardgame.Card;
 import java.util.ArrayList;
 
 public class CompositeRuleFactory {
+    // create a singleton
     private static CompositeRuleFactory instance;
 
     public static CompositeRuleFactory getInstance(){

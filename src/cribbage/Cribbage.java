@@ -192,7 +192,7 @@ public class Cribbage extends CardGame {
 			hands[i].sort(Hand.SortType.POINTPRIORITY, true);
 		}
 		logger.WriteToFile("deal,P0,"+canonical(hands[0]));
-		logger.WriteToFile(("deal,P1"+canonical(hands[1])));
+		logger.WriteToFile(("deal,P1,"+canonical(hands[1])));
 		layouts[0].setStepDelay(0);
 	}
 

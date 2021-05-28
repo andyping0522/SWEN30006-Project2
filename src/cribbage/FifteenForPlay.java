@@ -14,7 +14,7 @@ public class FifteenForPlay extends IScoringRuleStrategy{
     public int getScore() {
         int sum = 0;
         for (Card card:getSet()){
-            //System.out.println(card.getValue());
+            // sum up current round set
             sum += Cribbage.cardValue(card);
             if (sum > 15){
                 return 0;
