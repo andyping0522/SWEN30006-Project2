@@ -56,5 +56,4 @@ public abstract class IScoringRuleStrategy {
             subset.remove(subset.size() - 1); // remove to trigger backtracking
         }
     }
-
 }
