@@ -18,7 +18,8 @@ public class PairForShow extends IScoringRuleStrategy{
         for (Cribbage.Rank key:dict.keySet()){
             if (dict.get(key).size() > 1){
                 getPlayer().Score(dict.get(key).size()*2);
-                getLogger().WriteToFile(header() + dict.get(key).size()*2+ ",pair, "+ canonical(dict.get(key)));
+                getLogger().WriteToFile(header() + dict.get(key).size()*2+ ",pair,"+ canonical(dict.get(key))
+                        + "\n");
                 result += dict.get(key).size()*2;
 
             }

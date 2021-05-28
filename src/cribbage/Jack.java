@@ -28,7 +28,7 @@ public class Jack extends IScoringRuleStrategy{
         }
         if (result > 0){
             getPlayer().Score(result);
-            getLogger().WriteToFile(header()+ result +",jack, "+ canonical(candidates));
+            getLogger().WriteToFile(header()+ result +",jack,"+ canonical(candidates)+ "\n");
         }
 
         return 0;

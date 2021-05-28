@@ -296,6 +296,8 @@ public class Cribbage extends CardGame {
 				updateScore(currentPlayer);
 				if (total(s.segment) == thirtyone) {
 					players[currentPlayer].Score(2);// lastPlayer gets 2 points for a 31
+					logger.WriteToFile("score,P"+currentPlayer+","+players[currentPlayer].score+","+
+							"2,thirtyone\n");
 					updateScore(currentPlayer);
 					s.newSegment = true;
 					currentPlayer = (currentPlayer+1) % 2;

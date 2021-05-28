@@ -16,7 +16,7 @@ public class RunForShow extends Run{
         for (ArrayList<Card> subset:getSubsets()){
             if (isRun(subset)){
                 getPlayer().Score(subset.size());
-                getLogger().WriteToFile(header() + subset.size() + ",run, " + canonical(subset));
+                getLogger().WriteToFile(header() + subset.size() + ",run," + canonical(subset)+ "\n");
                 result += subset.size();
             }
         }

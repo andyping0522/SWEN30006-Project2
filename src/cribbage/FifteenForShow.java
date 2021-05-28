@@ -17,7 +17,7 @@ public class FifteenForShow extends IScoringRuleStrategy {
         for (ArrayList<Card> subset:getSubsets()){
             if (isFifteen(subset)){
                 getPlayer().Score(2);
-                getLogger().WriteToFile(header() + "2,fifteen, " + canonical(subset));
+                getLogger().WriteToFile(header() + "2,fifteen," + canonical(subset)+ "\n");
                 result += 2;
             }
         }
